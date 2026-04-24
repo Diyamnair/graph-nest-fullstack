@@ -1,4 +1,8 @@
-// Check if input is valid like A->B
+const express = require("express");
+const app = express();
+
+app.use(express.json());
+
 const isValidEdge = (edge) => {
   const pattern = /^[A-Z]->[A-Z]$/;
   if (!pattern.test(edge)) return false;
