@@ -3,12 +3,13 @@ const app = express();
 
 app.use(express.json());
 
+// Function to validate input like A->B
 const isValidEdge = (edge) => {
   const pattern = /^[A-Z]->[A-Z]$/;
   if (!pattern.test(edge)) return false;
 
   const [parent, child] = edge.split("->");
-  if (parent === child) return false; // avoid self loop
+  if (parent === child) return false;
 
   return true;
 };
@@ -54,7 +55,7 @@ app.post("/bfhl", (req, res) => {
     (node) => !childNodes.has(node)
   );
 
-  // Step 3: Build tree recursively
+  // Step 3: Build tree
   const buildTree = (node, visited = new Set()) => {
     if (visited.has(node)) {
       return { cycle: true };
@@ -137,4 +138,11 @@ app.post("/bfhl", (req, res) => {
       largest_tree_root: largestTreeRoot,
     },
   });
+});
+
+// ✅ REQUIRED for Render deployment
+const PORT = process.env.PORT || 5000;
+
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
 });
